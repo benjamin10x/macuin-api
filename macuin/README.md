@@ -122,21 +122,3 @@ docker exec macuin_laravel php artisan migrate --force
 | /v1/reportes/top-productos/{fmt}| Top 10 más vendidos      |
 
 `{fmt}` puede ser: `pdf`, `xlsx`, `docx`
-
-## Rúbrica — Checklist
-
-| Criterio | ✅ |
-|---|---|
-| 2 frontends: Flask y Laravel | ✅ |
-| Toda la lógica en FastAPI | ✅ |
-| Carpetas con routers para endpoints | ✅ |
-| Modelos SQLAlchemy para BD | ✅ |
-| Solo la API accede a la BD | ✅ |
-| Todo en contenedores Docker | ✅ |
-| Registro de usuarios externos (endpoint) | ✅ |
-| Pedidos con 1 a N productos | ✅ |
-| Endpoint para consultar pedidos del usuario | ✅ |
-| CRUD usuarios internos | ✅ |
-| CRUD autopartes | ✅ |
-| Mínimo 4 tipos de reportes | ✅ (4 tipos) |
-| Reportes en PDF, XLSX y DOCX | ✅ |
