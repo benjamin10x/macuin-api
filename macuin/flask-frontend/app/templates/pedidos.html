@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Pedidos - MACUIN{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Pedidos</h1>
+</div>
+<table class="table">
+    <thead>
+        <tr><th>ID</th><th>Usuario</th><th>Fecha</th><th>Estado</th><th>Total</th></tr>
+    </thead>
+    <tbody>
+        {% for p in pedidos %}
+        <tr>
+            <td>{{ p.id }}</td>
+            <td>{{ p.usuario_id }}</td>
+            <td>{{ p.fecha[:10] if p.fecha else "—" }}</td>
+            <td>
+                {% if p.estado == "entregado" %}
+                    <span class="badge badge-success">{{ p.estado }}</span>
+                {% elif p.estado == "cancelado" %}
+                    <span class="badge badge-danger">{{ p.estado }}</span>
+                {% elif p.estado == "enviado" %}
+                    <span class="badge badge-primary">{{ p.estado }}</span>
+                {% else %}
+                    <span class="badge badge-secondary">{{ p.estado }}</span>
+                {% endif %}
+            </td>
+            <td>${{ "%.2f"|format(p.total) }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" style="text-align:center">No hay pedidos registrados</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

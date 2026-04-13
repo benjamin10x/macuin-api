@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - MACUIN{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <h1>Panel de Administración</h1>
+    <p>Sistema de gestión de autopartes MACUIN</p>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <i class="fas fa-box stat-icon"></i>
+            <h3>Total Autopartes</h3>
+            <span class="stat-number">{{ autopartes|length if autopartes else 0 }}</span>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-dollar-sign stat-icon"></i>
+            <h3>Valor Inventario</h3>
+            <span class="stat-number">${{ "%.2f"|format(total_valor) if total_valor else "0.00" }}</span>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-exclamation-triangle stat-icon" style="color:#f59e0b"></i>
+            <h3>Bajo Stock</h3>
+            <span class="stat-number">{{ bajo_stock|length if bajo_stock else 0 }}</span>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-users stat-icon"></i>
+            <h3>Usuarios</h3>
+            <span class="stat-number">{{ usuarios|length if usuarios else 0 }}</span>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-shopping-cart stat-icon"></i>
+            <h3>Pedidos</h3>
+            <span class="stat-number">{{ pedidos|length if pedidos else 0 }}</span>
+        </div>
+    </div>
+
+    {% if bajo_stock %}
+    <div class="section">
+        <h2><i class="fas fa-exclamation-triangle"></i> Alertas de Stock Bajo</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Nombre</th><th>Categoría</th><th>Stock</th><th>Precio</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for a in bajo_stock %}
+                <tr>
+                    <td>{{ a.nombre }}</td>
+                    <td>{{ a.categoria }}</td>
+                    <td><span class="badge badge-danger">{{ a.stock }}</span></td>
+                    <td>${{ "%.2f"|format(a.precio) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

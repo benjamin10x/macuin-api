@@ -1,0 +1,92 @@
+version: "3.9"
+
+services:
+
+  postgres:
+    image: postgres:15
+    container_name: macuin_postgres
+    restart: always
+    environment:
+      POSTGRES_USER:     macuin
+      POSTGRES_PASSWORD: macuin123
+      POSTGRES_DB:       macuin_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - macuin_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U macuin -d macuin_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: macuin_api
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./api:/app
+    environment:
+      DATABASE_URL: postgresql://macuin:macuin123@postgres:5432/macuin_db
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - macuin_network
+
+  flask:
+    build:
+      context: ./flask-frontend
+      dockerfile: Dockerfile
+    container_name: macuin_flask
+    restart: always
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./flask-frontend:/app
+    environment:
+      API_URL:    http://api:8000/v1
+      SECRET_KEY: macuin-flask-secret-2024
+    depends_on:
+      - api
+    networks:
+      - macuin_network
+
+  laravel:
+    build:
+      context: ./laravel-frontend
+      dockerfile: docker/php/Dockerfile
+    container_name: macuin_laravel
+    restart: always
+    working_dir: /var/www/html
+    volumes:
+      - ./laravel-frontend:/var/www/html
+    ports:
+      - "8090:8090"
+    environment:
+      APP_NAME: MACUIN
+      APP_ENV: local
+      APP_KEY: base64:2FL+p3oElCmfBe5rlbkbB3I7Y7k4hVBTHKm2S5uWqzE=
+      APP_DEBUG: "true"
+      APP_URL: http://localhost:8080
+      API_URL: http://api:8000/v1
+      DB_CONNECTION: sqlite
+      DB_DATABASE: /tmp/laravel.sqlite
+    command: php artisan serve --host=0.0.0.0 --port=8090
+    depends_on:
+      - api
+    networks:
+      - macuin_network
+
+volumes:
+  postgres_data:
+
+networks:
+  macuin_network:
+    driver: bridge

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Inventario - MACUIN{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Inventario</h1>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <i class="fas fa-box stat-icon"></i>
+        <h3>Total Productos</h3>
+        <span class="stat-number">{{ autopartes|length }}</span>
+    </div>
+    <div class="stat-card">
+        <i class="fas fa-dollar-sign stat-icon"></i>
+        <h3>Valor Total</h3>
+        <span class="stat-number">${{ "%.2f"|format(total_valor) }}</span>
+    </div>
+    <div class="stat-card">
+        <i class="fas fa-exclamation-triangle stat-icon" style="color:#f59e0b"></i>
+        <h3>Bajo Stock</h3>
+        <span class="stat-number">{{ bajo_stock|length }}</span>
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr><th>Nombre</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Valor</th></tr>
+    </thead>
+    <tbody>
+        {% for a in autopartes %}
+        <tr>
+            <td>{{ a.nombre }}</td>
+            <td>{{ a.categoria }}</td>
+            <td>${{ "%.2f"|format(a.precio) }}</td>
+            <td>
+                {% if a.stock < 10 %}
+                    <span class="badge badge-danger">{{ a.stock }}</span>
+                {% else %}
+                    <span class="badge badge-success">{{ a.stock }}</span>
+                {% endif %}
+            </td>
+            <td>${{ "%.2f"|format(a.precio * a.stock) }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="5" style="text-align:center">Sin registros</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

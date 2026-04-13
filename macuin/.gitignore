@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.env
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# Laravel
+laravel-frontend/vendor/
+laravel-frontend/node_modules/
+laravel-frontend/.env
+laravel-frontend/storage/logs/*
+laravel-frontend/storage/framework/cache/*
+laravel-frontend/storage/framework/sessions/*
+laravel-frontend/storage/framework/views/*
+laravel-frontend/public/hot
+laravel-frontend/public/storage
+
+# Docker
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp

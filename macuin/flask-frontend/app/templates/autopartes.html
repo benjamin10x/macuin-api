@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Autopartes - MACUIN{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Autopartes</h1>
+    <a href="{{ url_for('main.nuevo_autoparte') }}" class="btn btn-primary">
+        <i class="fas fa-plus"></i> Nueva Autoparte
+    </a>
+</div>
+<table class="table">
+    <thead>
+        <tr><th>ID</th><th>Nombre</th><th>Categoría</th><th>Precio</th><th>Stock</th><th>Acciones</th></tr>
+    </thead>
+    <tbody>
+        {% for a in autopartes %}
+        <tr>
+            <td>{{ a.id }}</td>
+            <td>{{ a.nombre }}</td>
+            <td>{{ a.categoria }}</td>
+            <td>${{ "%.2f"|format(a.precio) }}</td>
+            <td>
+                {% if a.stock < 10 %}
+                    <span class="badge badge-danger">{{ a.stock }}</span>
+                {% else %}
+                    <span class="badge badge-success">{{ a.stock }}</span>
+                {% endif %}
+            </td>
+            <td>
+                <a href="{{ url_for('main.editar_autoparte', id=a.id) }}" class="btn btn-sm btn-secondary">
+                    <i class="fas fa-edit"></i> Editar
+                </a>
+                <form method="POST" action="{{ url_for('main.eliminar_autoparte', id=a.id) }}"
+                      style="display:inline" onsubmit="return confirm('¿Eliminar esta autoparte?')">
+                    <button type="submit" class="btn btn-sm btn-danger">
+                        <i class="fas fa-trash"></i> Eliminar
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="6" style="text-align:center">No hay autopartes registradas</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

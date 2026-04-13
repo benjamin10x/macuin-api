@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Reportes - MACUIN{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1>Reportes</h1>
+    <p>Descarga los reportes del sistema en PDF, Excel o Word</p>
+</div>
+
+<div class="reportes-grid">
+
+    <div class="reporte-card">
+        <div class="reporte-icon"><i class="fas fa-boxes"></i></div>
+        <h3>Inventario Completo</h3>
+        <p>Lista de todas las autopartes con precios y stock actual</p>
+        <div class="reporte-btns">
+            <a href="{{ url_for('main.descargar_reporte', tipo='inventario', fmt='pdf') }}"
+               class="btn btn-sm btn-danger"><i class="fas fa-file-pdf"></i> PDF</a>
+            <a href="{{ url_for('main.descargar_reporte', tipo='inventario', fmt='xlsx') }}"
+               class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Excel</a>
+            <a href="{{ url_for('main.descargar_reporte', tipo='inventario', fmt='docx') }}"
+               class="btn btn-sm btn-primary"><i class="fas fa-file-word"></i> Word</a>
+        </div>
+    </div>
+
+    <div class="reporte-card">
+        <div class="reporte-icon" style="color:#f59e0b"><i class="fas fa-exclamation-triangle"></i></div>
+        <h3>Stock Bajo</h3>
+        <p>Autopartes con menos de 10 unidades disponibles</p>
+        <div class="reporte-btns">
+            <a href="{{ url_for('main.descargar_reporte', tipo='bajo-stock', fmt='pdf') }}"
+               class="btn btn-sm btn-danger"><i class="fas fa-file-pdf"></i> PDF</a>
+            <a href="{{ url_for('main.descargar_reporte', tipo='bajo-stock', fmt='xlsx') }}"
+               class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Excel</a>
+            <a href="{{ url_for('main.descargar_reporte', tipo='bajo-stock', fmt='docx') }}"
+               class="btn btn-sm btn-primary"><i class="fas fa-file-word"></i> Word</a>
+        </div>
+    </div>
+
+    <div class="reporte-card">
+        <div class="reporte-icon"><i class="fas fa-shopping-cart"></i></div>
+        <h3>Ventas / Pedidos</h3>
+        <p>Historial completo de pedidos con estados y totales</p>
+        <div class="reporte-btns">
+            <a href="{{ url_for('main.descargar_reporte', tipo='ventas', fmt='pdf') }}"
+               class="btn btn-sm btn-danger"><i class="fas fa-file-pdf"></i> PDF</a>
+            <a href="{{ url_for('main.descargar_reporte', tipo='ventas', fmt='xlsx') }}"
+               class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Excel</a>
+            <a href="{{ url_for('main.descargar_reporte', tipo='ventas', fmt='docx') }}"
+               class="btn btn-sm btn-primary"><i class="fas fa-file-word"></i> Word</a>
+        </div>
+    </div>
+
+    <div class="reporte-card">
+        <div class="reporte-icon"><i class="fas fa-trophy"></i></div>
+        <h3>Top Productos</h3>
+        <p>Los 10 productos más vendidos por cantidad</p>
+        <div class="reporte-btns">
+            <a href="{{ url_for('main.descargar_reporte', tipo='top-productos', fmt='pdf') }}"
+               class="btn btn-sm btn-danger"><i class="fas fa-file-pdf"></i> PDF</a>
+            <a href="{{ url_for('main.descargar_reporte', tipo='top-productos', fmt='xlsx') }}"
+               class="btn btn-sm btn-success"><i class="fas fa-file-excel"></i> Excel</a>
+            <a href="{{ url_for('main.descargar_reporte', tipo='top-productos', fmt='docx') }}"
+               class="btn btn-sm btn-primary"><i class="fas fa-file-word"></i> Word</a>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
