@@ -12,7 +12,7 @@ from app.services import (
     update_autoparte, delete_autoparte,
     get_all_usuarios, get_usuario, create_usuario,
     update_usuario, delete_usuario,
-    get_all_pedidos
+    get_all_pedidos, update_pedido
 )
 
 
@@ -154,6 +154,21 @@ def eliminar_usuario(id):
 def pedidos():
     data = get_all_pedidos()
     return render_template("pedidos.html", pedidos=data)
+
+
+@main.route("/pedidos/<int:id>/estado", methods=["POST"])
+def actualizar_estado_pedido(id):
+    estado = request.form.get("estado")
+    if estado not in ["pendiente", "enviado", "entregado", "cancelado"]:
+        flash("Estado no válido", "danger")
+        return redirect(url_for("main.pedidos"))
+    
+    resultado, error = update_pedido(id, {"estado": estado})
+    if error:
+        flash(f"Error actualizando pedido: {error}", "danger")
+    else:
+        flash("Estado del pedido actualizado correctamente", "success")
+    return redirect(url_for("main.pedidos"))
 
 
 # ══════════════════════════════════════════════════════════════

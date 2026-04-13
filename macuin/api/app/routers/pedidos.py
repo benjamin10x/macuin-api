@@ -5,7 +5,7 @@ from typing import List
 
 from app.data.db import get_db
 from app.data.models import Pedido, DetallePedido, Autoparte, Usuario
-from app.schemas.schemas import PedidoCreate, PedidoOut
+from app.schemas.schemas import PedidoCreate, PedidoOut, PedidoUpdate
 
 router = APIRouter(
     prefix="/v1/pedidos",
@@ -94,4 +94,18 @@ async def obtener_pedido(id: int, db: Session = Depends(get_db)):
     pedido = db.query(Pedido).filter(Pedido.id == id).first()
     if not pedido:
         raise HTTPException(status_code=404, detail="Pedido no encontrado")
+    return pedido
+
+
+@router.put("/{id}", response_model=PedidoOut)
+async def actualizar_pedido(id: int, datos: PedidoUpdate, db: Session = Depends(get_db)):
+    """Actualizar estado del pedido (admin Flask)."""
+    pedido = db.query(Pedido).filter(Pedido.id == id).first()
+    if not pedido:
+        raise HTTPException(status_code=404, detail="Pedido no encontrado")
+    
+    pedido.estado = datos.estado
+    
+    db.commit()
+    db.refresh(pedido)
     return pedido

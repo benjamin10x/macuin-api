@@ -91,3 +91,6 @@ def delete_usuario(id):
 # ── Pedidos ────────────────────────────────────────────────────
 def get_all_pedidos():
     return _get("/pedidos/")
+
+def update_pedido(id, data):
+    return _put(f"/pedidos/{id}", data)

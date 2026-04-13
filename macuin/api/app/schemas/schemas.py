@@ -52,6 +52,9 @@ class PedidoCreate(BaseModel):
     usuario_id: int           = Field(..., example=1)
     detalles:   List[DetalleIn] = Field(..., min_length=1)
 
+class PedidoUpdate(BaseModel):
+    estado: str = Field(..., example="enviado")
+
 class DetalleOut(BaseModel):
     autoparte_id: int
     cantidad:     int

@@ -6,7 +6,7 @@
 </div>
 <table class="table">
     <thead>
-        <tr><th>ID</th><th>Usuario</th><th>Fecha</th><th>Estado</th><th>Total</th></tr>
+        <tr><th>ID</th><th>Usuario</th><th>Fecha</th><th>Estado</th><th>Total</th><th>Acciones</th></tr>
     </thead>
     <tbody>
         {% for p in pedidos %}
@@ -26,9 +26,19 @@
                 {% endif %}
             </td>
             <td>${{ "%.2f"|format(p.total) }}</td>
+            <td>
+                <form method="POST" action="{{ url_for('main.actualizar_estado_pedido', id=p.id) }}" style="display:inline">
+                    <select name="estado" onchange="this.form.submit()" class="form-control" style="width:auto;display:inline;margin-right:0.5rem;">
+                        <option value="pendiente" {{ 'selected' if p.estado == 'pendiente' else '' }}>Pendiente</option>
+                        <option value="enviado" {{ 'selected' if p.estado == 'enviado' else '' }}>Enviado</option>
+                        <option value="entregado" {{ 'selected' if p.estado == 'entregado' else '' }}>Entregado</option>
+                        <option value="cancelado" {{ 'selected' if p.estado == 'cancelado' else '' }}>Cancelado</option>
+                    </select>
+                </form>
+            </td>
         </tr>
         {% else %}
-        <tr><td colspan="5" style="text-align:center">No hay pedidos registrados</td></tr>
+        <tr><td colspan="6" style="text-align:center">No hay pedidos registrados</td></tr>
         {% endfor %}
     </tbody>
 </table>

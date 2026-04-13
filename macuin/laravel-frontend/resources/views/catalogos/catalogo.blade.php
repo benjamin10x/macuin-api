@@ -38,6 +38,29 @@
 
         <h1 class="page-title">Catálogo de Autopartes</h1>
 
+        <div class="filters-container">
+            <div class="filter-group">
+                <label for="categoria-select">Categoría:</label>
+                <select id="categoria-select" onchange="filtrarProductos()">
+                    <option value="">Todas las categorías</option>
+                    @php
+                        $categorias = collect($autopartes)->pluck('categoria')->unique()->sort();
+                    @endphp
+                    @foreach($categorias as $categoria)
+                        <option value="{{ strtolower($categoria) }}">{{ $categoria }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="filter-group">
+                <label for="precio-min">Precio mínimo:</label>
+                <input type="number" id="precio-min" placeholder="0" oninput="filtrarProductos()">
+            </div>
+            <div class="filter-group">
+                <label for="precio-max">Precio máximo:</label>
+                <input type="number" id="precio-max" placeholder="999999" oninput="filtrarProductos()">
+            </div>
+        </div>
+
         <div class="search-container">
             <i class="fas fa-search search-icon"></i>
             <input type="text" class="search-input" id="buscador"
@@ -47,7 +70,8 @@
         <div class="products-grid" id="products-grid">
             @forelse($autopartes as $autoparte)
             <div class="product-card" data-nombre="{{ strtolower($autoparte['nombre']) }}"
-                 data-categoria="{{ strtolower($autoparte['categoria']) }}">
+                 data-categoria="{{ strtolower($autoparte['categoria']) }}"
+                 data-precio="{{ $autoparte['precio'] }}">
                 <div class="product-image">
                     <i class="fas fa-cog"></i>
                 </div>
@@ -94,6 +118,10 @@
 <style>
 .alert-success-bar{background:#d1fae5;color:#065f46;padding:.75rem 1rem;border-radius:.5rem;margin-bottom:1rem;}
 .alert-error-bar{background:#fee2e2;color:#991b1b;padding:.75rem 1rem;border-radius:.5rem;margin-bottom:1rem;}
+.filters-container { display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.filter-group { display: flex; flex-direction: column; }
+.filter-group label { font-size: 0.875rem; font-weight: 500; margin-bottom: 0.25rem; color: #374151; }
+.filter-group select, .filter-group input { padding: 0.5rem; border: 1px solid #d1d5db; border-radius: 0.375rem; font-size: 0.875rem; }
 </style>
 
 <script>
@@ -119,10 +147,20 @@ function actualizarContador() {
 
 function filtrarProductos() {
     const q = document.getElementById('buscador').value.toLowerCase();
+    const categoria = document.getElementById('categoria-select').value.toLowerCase();
+    const precioMin = parseFloat(document.getElementById('precio-min').value) || 0;
+    const precioMax = parseFloat(document.getElementById('precio-max').value) || Infinity;
+
     document.querySelectorAll('.product-card').forEach(card => {
-        const nombre    = card.dataset.nombre || '';
-        const categoria = card.dataset.categoria || '';
-        card.style.display = (nombre.includes(q) || categoria.includes(q)) ? '' : 'none';
+        const nombre = card.dataset.nombre || '';
+        const cat = card.dataset.categoria || '';
+        const precio = parseFloat(card.dataset.precio) || 0;
+
+        const matchesSearch = nombre.includes(q) || cat.includes(q);
+        const matchesCategoria = !categoria || cat === categoria;
+        const matchesPrecio = precio >= precioMin && precio <= precioMax;
+
+        card.style.display = (matchesSearch && matchesCategoria && matchesPrecio) ? '' : 'none';
     });
 }
 
