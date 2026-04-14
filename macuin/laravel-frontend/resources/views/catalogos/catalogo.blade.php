@@ -7,6 +7,7 @@
         <div class="header-right">
             <a href="{{ route('pedidos') }}" class="nav-link">Mis Pedidos</a>
             <a href="{{ route('carrito') }}" class="cart-link">
+                
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-count" id="cart-count">0</span>
             </a>

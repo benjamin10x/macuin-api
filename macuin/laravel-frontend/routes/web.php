@@ -15,6 +15,7 @@ Route::get('/registro',  [AuthController::class, 'showRegistro'])->name('registr
 Route::post('/registro', [AuthController::class, 'registro'])->name('registro.post');
 
 Route::get('/login',  [AuthController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('/pedidos',     [PedidoController::class, 'index'])->name('pedidos');

@@ -53,6 +53,21 @@ class ApiService
         }
     }
 
+    public function iniciarSesion(array $credenciales): array
+    {
+        try {
+            $response = Http::timeout(5)->post("{$this->baseUrl}/usuarios/login", $credenciales);
+            if ($response->successful()) {
+                return ['success' => true, 'data' => $response->json()];
+            }
+            $detalle = $response->json()['detail'] ?? 'No se pudo iniciar sesión';
+            return ['success' => false, 'error' => $detalle];
+        } catch (\Exception $e) {
+            Log::error("ApiService::iniciarSesion - {$e->getMessage()}");
+            return ['success' => false, 'error' => 'Error de conexión con la API'];
+        }
+    }
+
     public function getUsuario(int $id): array
     {
         try {

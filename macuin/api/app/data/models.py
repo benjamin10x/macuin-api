@@ -15,7 +15,11 @@ class Autoparte(Base):
     stock       = Column(Integer, default=0)
     descripcion = Column(Text, nullable=True)
 
-    detalle_pedidos = relationship("DetallePedido", back_populates="autoparte")
+    detalle_pedidos = relationship(
+        "DetallePedido",
+        back_populates="autoparte",
+        passive_deletes=True,
+    )
 
 
 class Usuario(Base):
@@ -28,7 +32,11 @@ class Usuario(Base):
     password = Column(String(255), nullable=False)
     rol      = Column(String(20), default="cliente")  # cliente | admin
 
-    pedidos = relationship("Pedido", back_populates="usuario")
+    pedidos = relationship(
+        "Pedido",
+        back_populates="usuario",
+        passive_deletes=True,
+    )
 
 
 class Pedido(Base):

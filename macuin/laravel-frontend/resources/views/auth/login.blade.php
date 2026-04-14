@@ -3,12 +3,10 @@
 
 @section('content')
 <div class="auth-page">
-    <!-- Back Link -->
     <a href="{{ route('catalogo') }}" class="back-link">
         <i class="fas fa-arrow-left"></i> Volver
     </a>
 
-    <!-- Auth Container -->
     <div class="auth-container">
         <div class="auth-card">
             <div class="auth-header">
@@ -17,12 +15,20 @@
                 <p class="auth-subtitle">Portal de Clientes</p>
             </div>
 
-            <form class="auth-form">
+            @if($errors->any())
+                <div style="background:#fee2e2;color:#991b1b;padding:.75rem;border-radius:.5rem;margin-bottom:1rem;font-size:.875rem">
+                    {{ $errors->first() }}
+                </div>
+            @endif
+
+            <form class="auth-form" method="POST" action="{{ route('login.post') }}">
+                @csrf
                 <div class="form-group">
                     <label class="form-label">Correo Electrónico</label>
                     <div class="input-wrapper">
                         <i class="fas fa-envelope input-icon"></i>
-                        <input type="email" class="form-input" placeholder="tu@email.com">
+                        <input type="email" name="email" class="form-input"
+                               placeholder="tu@email.com" value="{{ old('email') }}" required>
                     </div>
                 </div>
 
@@ -30,7 +36,8 @@
                     <label class="form-label">Contraseña</label>
                     <div class="input-wrapper">
                         <i class="fas fa-lock input-icon"></i>
-                        <input type="password" class="form-input" placeholder="********">
+                        <input type="password" name="password" class="form-input"
+                               placeholder="********" required>
                     </div>
                 </div>
 

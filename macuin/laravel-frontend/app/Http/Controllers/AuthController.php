@@ -58,9 +58,42 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function logout()
+    public function login(Request $request)
     {
-        session()->forget('usuario');
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+        ], [
+            'email.required' => 'El correo es obligatorio',
+            'email.email' => 'El correo no es válido',
+            'password.required' => 'La contraseña es obligatoria',
+            'password.min' => 'La contraseña debe tener al menos 6 caracteres',
+        ]);
+
+        $resultado = $this->api->iniciarSesion([
+            'email' => $request->email,
+            'password' => $request->password,
+        ]);
+
+        if ($resultado['success']) {
+            $request->session()->regenerate();
+            session(['usuario' => $resultado['data']]);
+
+            return redirect()->route('catalogo')
+                ->with('success', '¡Bienvenido de nuevo a MACUIN!');
+        }
+
+        return back()
+            ->withErrors(['login' => $resultado['error']])
+            ->withInput($request->only('email'));
+    }
+
+    public function logout(Request $request)
+    {
+        $request->session()->forget('usuario');
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return redirect()->route('index');
     }
 }
