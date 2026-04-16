@@ -7,7 +7,7 @@
                 <a href="{{ route('catalogo') }}" class="back-link-header">
                     <i class="fas fa-arrow-left"></i> Volver al Catálogo
                 </a>
-                <a href="{{ route('catalogo') }}" class="logo">MACUIN</a>
+                <a href="{{ route('index') }}" class="logo">MACUIN</a>
             </div>
             <div class="header-right">
                 <a href="{{ route('pedidos') }}" class="nav-link active">Mis Pedidos</a>

@@ -3,7 +3,7 @@
 @section('content')
 <header class="header">
     <div class="header-container">
-        <a href="{{ route('catalogo') }}" class="logo">MACUIN</a>
+        <a href="{{ route('index') }}" class="logo">MACUIN</a>
         <div class="header-right">
             <a href="{{ route('pedidos') }}" class="nav-link">Mis Pedidos</a>
             <a href="{{ route('carrito') }}" class="cart-link">

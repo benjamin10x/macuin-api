@@ -224,7 +224,7 @@
         <div class="cta-content">
             <h2 class="cta-title">¿Listo para encontrar lo que necesitas?</h2>
             <p class="cta-subtitle">Regístrate ahora y obtén un 10% de descuento en tu primera compra</p>
-            <a href="registro.html" class="btn-cta">Crear Cuenta Gratis</a>
+            <a href="{{ route('registro') }}" class="btn-cta">Crear Cuenta Gratis</a>
         </div>
     </section>
 

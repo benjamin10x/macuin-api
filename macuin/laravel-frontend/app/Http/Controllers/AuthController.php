@@ -40,7 +40,6 @@ class AuthController extends Controller
             'email'    => $request->email,
             'telefono' => $request->telefono,
             'password' => $request->password,
-            'rol'      => 'cliente',
         ]);
 
         if ($resultado['success']) {
